@@ -2,14 +2,10 @@
 # Author: @MojtabaMonfared
 
 import redis
-import sys
 import telebot
 import json
 import re
 import requests
-import urllib
-import subprocess
-import os
 from telebot import types
 db = redis.StrictRedis(host='localhost', port=6379, db=0)
 
@@ -57,7 +53,7 @@ siteURL = 'http://bestoon.ir/'
 registersiteURL = 'http://bestoon.ir/accounts/register'
 githubrepoURL = 'https://github.com/jadijadi/bestoon'
 
-token = '181062749:AAHSsvGZ0pB_V82H8-8bX5UU1nlNAYbJczg'
+token = 'XXXXXXXXXXXXX'
 bot = telebot.TeleBot(token)
 
 @bot.message_handler(commands=['start', 'help'])
@@ -94,7 +90,7 @@ def messageHandler(message):
 		# Request will req to site with user token
 		bot.send_message(message.chat.id, stats_message.format(name=message.from_user.first_name,sum_1=expense["amount__sum"], num_1=expense["amount__count"], sum_2=income["amount__sum"], num_2=income["amount__count"]))
 	elif message.text == "ثبت درآمد جدید ⬇️".decode('utf-8'):
-		msgIncome = bot.send_message(message.chat.id, "*⃣ برای ثبت یه مبلغ دریافتی جدید ابتدا مبلغ را به صورت اعداد انگلیسی وارد کنید:", reply_markup=types.ReplyKeyboardHide())
+		msgIncome = bot.send_message(message.chat.id, "*⃣ برای ثبت یه مبلغ دریافتی جدید ابتدا مبلغ را به صورت اعداد انگلیسی وارد کنید:", reply_markup=types.ReplyKeyboardRemove(selective=False))
 		bot.register_next_step_handler(msgIncome, MoneyValueCallback)
 	elif message.text == "ثبت خرج جدید ⬇️".decode('utf-8'):
 		msgExpense = bot.send_message(message.chat.id, "*⃣ برای ثبت یه خرج جدید ابتدا مبلغ را به صورت اعداد انگلیسی وارد کنید:")
@@ -127,7 +123,7 @@ def MoneyValueCallback(message):
 	msgIncome1 = bot.send_message(message.chat.id, "🗒 توضیحی درباره این مبلغ بدهید:")
 	bot.register_next_step_handler(msgIncome1, MoneyValueCallback1)
 def MoneyValueCallback1(message):
-	text = message.text.decode('utf-8')
+	text = u'{}'.format(message.text)
 	payload = {
 		"token": db.get('token-{}'.format(message.from_user.id)),
 		"text": text,
@@ -146,7 +142,7 @@ def MoneyValueCallbackEx(message):
 	bot.register_next_step_handler(msgExpense1, MoneyValueCallbackEx1)
 
 def MoneyValueCallbackEx1(message):
-	text = message.text.decode('utf-8')
+	text = u'{}'.format(message.text)
 	payload = {
 		"token": db.get('token-{}'.format(message.from_user.id)),
 		"text": text,
