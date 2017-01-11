@@ -53,7 +53,7 @@ siteURL = 'http://bestoon.ir/'
 registersiteURL = 'http://bestoon.ir/accounts/register'
 githubrepoURL = 'https://github.com/jadijadi/bestoon'
 
-token = '181062749:AAFpg6r5f1kZvpstlOlKKQ93BR0qi8JahWk'
+token = 'TOKEN'
 bot = telebot.TeleBot(token)
 
 @bot.message_handler(commands=['start', 'help'])
